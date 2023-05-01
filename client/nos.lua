@@ -65,7 +65,7 @@ CreateThread(function()
                             while NitrousActivated do
                                 if VehicleNitrous[Plate].level - 1 ~= 0 then
                                     TriggerServerEvent('nitrous:server:UpdateNitroLevel', Plate, (VehicleNitrous[Plate].level - 1))
-                                    TriggerEvent('hud:client:UpdateNitrous', VehicleNitrous[Plate].hasnitro,  VehicleNitrous[Plate].level, true)
+                                    TriggerEvent('QBCore:Client:State:nitrous', VehicleNitrous[Plate].hasnitro,  VehicleNitrous[Plate].level, true)
                                 else
                                     TriggerServerEvent('nitrous:server:UnloadNitrous', Plate)
                                     NitrousActivated = false
@@ -96,14 +96,14 @@ CreateThread(function()
                                 Fxs[index] = nil
                             end
                             StopScreenEffect("RaceTurbo")
-                            TriggerEvent('hud:client:UpdateNitrous', VehicleNitrous[Plate].hasnitro,  VehicleNitrous[Plate].level, false)
+                            TriggerEvent('QBCore:Client:State:nitrous', VehicleNitrous[Plate].hasnitro,  VehicleNitrous[Plate].level, false)
                             NitrousActivated = false
                         end
                     end
                 end
             else
                 if not nosupdated then
-                    TriggerEvent('hud:client:UpdateNitrous', false, nil, false)
+                    TriggerEvent('QBCore:Client:State:nitrous', false, nil, false)
                     nosupdated = true
                 end
                 StopScreenEffect("RaceTurbo")
@@ -220,7 +220,7 @@ RegisterNetEvent('nitrous:client:LoadNitrous', function(Plate)
     local CurrentVehicle = GetVehiclePedIsIn(PlayerPedId())
     local CPlate = trim(GetVehicleNumberPlateText(CurrentVehicle))
     if CPlate == Plate then
-        TriggerEvent('hud:client:UpdateNitrous', VehicleNitrous[Plate].hasnitro,  VehicleNitrous[Plate].level, false)
+        TriggerEvent('QBCore:Client:State:nitrous', VehicleNitrous[Plate].hasnitro,  VehicleNitrous[Plate].level, false)
     end
 end)
 
@@ -230,6 +230,6 @@ RegisterNetEvent('nitrous:client:UnloadNitrous', function(Plate)
     local CPlate = trim(GetVehicleNumberPlateText(CurrentVehicle))
     if CPlate == Plate then
         NitrousActivated = false
-        TriggerEvent('hud:client:UpdateNitrous', false, nil, false)
+        TriggerEvent('QBCore:Client:State:nitrous', false, nil, false)
     end
 end)
